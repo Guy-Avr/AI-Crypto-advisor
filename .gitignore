@@ -1,0 +1,16 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+.venv/
+venv/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Testing
+.pytest_cache/
+
