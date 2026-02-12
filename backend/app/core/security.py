@@ -1,22 +1,25 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
+import bcrypt
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 
 from app.core.config import get_settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt has a 72-byte limit; we truncate to avoid errors
+BCRYPT_MAX_PASSWORD_BYTES = 72
 
 
 def hash_password(password: str) -> str:
     """Hash a plain password with bcrypt."""
-    return pwd_context.hash(password)
+    pwd_bytes = password.encode("utf-8")[:BCRYPT_MAX_PASSWORD_BYTES]
+    return bcrypt.hashpw(pwd_bytes, bcrypt.gensalt()).decode("ascii")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Check that a plain password matches the stored hash."""
-    return pwd_context.verify(plain_password, hashed_password)
+    pwd_bytes = plain_password.encode("utf-8")[:BCRYPT_MAX_PASSWORD_BYTES]
+    return bcrypt.checkpw(pwd_bytes, hashed_password.encode("ascii"))
 
 
 def create_access_token(data: dict[str, Any]) -> str:
