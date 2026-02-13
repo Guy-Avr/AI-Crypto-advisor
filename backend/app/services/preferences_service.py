@@ -17,8 +17,9 @@ def save_preferences(
     """
     existing = db.query(Preferences).filter(Preferences.user_id == user_id).first()
     content_types_values = [x.value for x in payload.content_types]
+    assets_values = [a.value for a in payload.assets]
     if existing:
-        existing.assets = payload.assets
+        existing.assets = assets_values
         existing.investor_type = payload.investor_type
         existing.content_types = content_types_values
         db.commit()
@@ -26,7 +27,7 @@ def save_preferences(
         return existing
     pref = Preferences(
         user_id=user_id,
-        assets=payload.assets,
+        assets=assets_values,
         investor_type=payload.investor_type,
         content_types=content_types_values,
     )

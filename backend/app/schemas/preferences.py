@@ -1,16 +1,16 @@
 from pydantic import BaseModel, Field
 
-from app.models.enums import InvestorType, SectionType
+from app.models.enums import AssetSymbol, InvestorType, SectionType
 
 
 class OnboardingRequest(BaseModel):
-    """Body for POST /onboarding – assets, investor type, content types."""
+    """Body for POST /onboarding – assets, investor type, content types. Only enum values allowed."""
 
-    assets: list[str] = Field(
+    assets: list[AssetSymbol] = Field(
         ...,
         min_length=1,
         max_length=50,
-        description="List of asset tickers, e.g. ['BTC', 'ETH']",
+        description="List of supported asset symbols (use only values from AssetSymbol enum)",
     )
     investor_type: InvestorType
     content_types: list[SectionType] = Field(

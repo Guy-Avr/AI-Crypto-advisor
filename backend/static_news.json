@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Bitcoin and Ethereum See Institutional Inflows",
+    "url": "https://www.cryptocompare.com/news/bitcoin-ethereum-institutional-inflows/",
+    "published_at": "2025-02-12T10:00:00Z",
+    "coins": ["BTC", "ETH"]
+  },
+  {
+    "title": "Solana Network Activity Hits New High",
+    "url": "https://www.cryptocompare.com/news/solana-network-activity-high/",
+    "published_at": "2025-02-12T09:30:00Z",
+    "coins": ["SOL"]
+  },
+  {
+    "title": "DOGE and PEPE Lead Meme Coin Rally",
+    "url": "https://www.cryptocompare.com/news/doge-pepe-meme-rally/",
+    "published_at": "2025-02-12T09:00:00Z",
+    "coins": ["DOGE", "PEPE"]
+  },
+  {
+    "title": "XRP Ripple Legal Update",
+    "url": "https://www.cryptocompare.com/news/xrp-ripple-legal-update/",
+    "published_at": "2025-02-12T08:45:00Z",
+    "coins": ["XRP"]
+  },
+  {
+    "title": "AVAX and LINK Partner for DeFi Integration",
+    "url": "https://www.cryptocompare.com/news/avax-link-defi/",
+    "published_at": "2025-02-12T08:00:00Z",
+    "coins": ["AVAX", "LINK"]
+  },
+  {
+    "title": "BNB Chain Upgrade Improves Throughput",
+    "url": "https://www.cryptocompare.com/news/bnb-chain-upgrade/",
+    "published_at": "2025-02-12T07:30:00Z",
+    "coins": ["BNB"]
+  },
+  {
+    "title": "USDT and USDC Stablecoin Market Share Report",
+    "url": "https://www.cryptocompare.com/news/usdt-usdc-stablecoin-report/",
+    "published_at": "2025-02-12T07:00:00Z",
+    "coins": ["USDT", "USDC"]
+  },
+  {
+    "title": "Cardano ADA Smart Contract Milestone",
+    "url": "https://www.cryptocompare.com/news/cardano-ada-milestone/",
+    "published_at": "2025-02-12T06:30:00Z",
+    "coins": ["ADA"]
+  },
+  {
+    "title": "Uniswap UNI Governance Proposal Passes",
+    "url": "https://www.cryptocompare.com/news/uniswap-uni-governance/",
+    "published_at": "2025-02-12T06:00:00Z",
+    "coins": ["UNI"]
+  },
+  {
+    "title": "Polygon MATIC and Arbitrum ARB Layer-2 Growth",
+    "url": "https://www.cryptocompare.com/news/matic-arb-layer2-growth/",
+    "published_at": "2025-02-12T05:30:00Z",
+    "coins": ["MATIC", "ARB"]
+  }
+]
