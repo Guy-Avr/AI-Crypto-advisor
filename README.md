@@ -32,7 +32,7 @@ Technical choices for this project.
 | Service | Use |
 |---------|-----|
 | **CoinGecko** | Coin data and prices |
-| **CryptoPanic** | Market news |
+| **CryptoCompare** | Market news (fallback: static_news.json) |
 | **HuggingFace / OpenRouter** | AI insight of the day |
 
 ### Deployment

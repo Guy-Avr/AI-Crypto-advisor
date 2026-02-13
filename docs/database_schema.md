@@ -33,7 +33,9 @@ Stores onboarding answers and personalization. Each user has exactly one prefere
 | user_id        | UUID           | Unique, FK → users(id), ON DELETE CASCADE     |
 | assets         | JSONB          | Not Null (e.g. `["BTC", "ETH"]`)             |
 | investor_type  | investor_enum  | Not Null                                     |
-| content_types  | JSONB          | Not Null (e.g. `["news", "ai", "memes"]`)    |
+| content_types  | JSONB          | Not Null (e.g. `["news", "ai", "meme"]`)     |
+| created_at     | TIMESTAMP      | Default `now()`                              |
+| updated_at     | TIMESTAMP      | Default `now()`, updated on change           |
 
 **Constraints:**  
 - `UNIQUE(user_id)` (one-to-one with users)  
