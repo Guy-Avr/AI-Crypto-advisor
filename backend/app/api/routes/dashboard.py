@@ -75,8 +75,8 @@ def get_dashboard_ai_insight(ctx: DashboardContext = Depends(get_dashboard_conte
 
 @router.get("/meme", response_model=MemeResponse)
 def get_dashboard_meme(ctx: DashboardContext = Depends(get_dashboard_context)) -> MemeResponse:
-    """Fun crypto meme. 503 only if meme service fails."""
-    meme = get_meme()
+    """Fun crypto meme, chosen by investor_type. 503 only if meme service fails."""
+    meme = get_meme(investor_type=ctx.investor_type or None)
     if not meme:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

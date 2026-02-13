@@ -18,8 +18,8 @@ from app.schemas.dashboard import NewsItem
 
 logger = logging.getLogger(__name__)
 
-# Default fallback path when STATIC_NEWS_PATH not set
-_DEFAULT_STATIC_NEWS_PATH = Path(__file__).resolve().parent.parent.parent / "static_news.json"
+# Default fallback path when STATIC_NEWS_PATH not set (backend/data/static_news.json)
+_DEFAULT_STATIC_NEWS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "static_news.json"
 NEWS_UNAVAILABLE_MESSAGE = (
     "News is temporarily unavailable. Please try again later."
 )
@@ -97,7 +97,7 @@ def _parse_cryptocompare_response(data: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _get_static_news_path() -> Path:
-    """Path to static_news.json: from env STATIC_NEWS_PATH or default next to backend."""
+    """Path to static_news.json: from env STATIC_NEWS_PATH or default backend/data/static_news.json."""
     settings = get_settings()
     if (settings.STATIC_NEWS_PATH or "").strip():
         return Path(settings.STATIC_NEWS_PATH.strip())

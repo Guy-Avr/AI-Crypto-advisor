@@ -42,6 +42,7 @@ class Settings:
         self.NEWS_TIMEOUT: float = float(os.getenv("NEWS_TIMEOUT", "10"))
         self.NEWS_LIMIT: int = int(os.getenv("NEWS_LIMIT", "10"))
         self.STATIC_NEWS_PATH: str = os.getenv("STATIC_NEWS_PATH", "")
+        self.MEMES_JSON_PATH: str = os.getenv("MEMES_JSON_PATH", "")
 
         # CryptoPanic (optional – unused; kept for reference)
         self.CRYPTOPANIC_API_KEY: str = os.getenv("CRYPTOPANIC_API_KEY", "")

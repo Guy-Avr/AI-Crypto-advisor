@@ -1,0 +1,37 @@
+{
+  "categories": {
+    "HODLer": [
+      {"title": "HODL", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/1bhk.jpg"},
+      {"title": "Diamond hands", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/43a45p.png"},
+      {"title": "Never selling", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/39t1o.jpg"}
+    ],
+    "DayTrader": [
+      {"title": "When BTC pumps", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/54hjww.jpg"},
+      {"title": "Chart reading", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/1g8my4.jpg"},
+      {"title": "Panik Kalm Panik", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/3qqcim.png"}
+    ],
+    "SwingTrader": [
+      {"title": "Buy the dip", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/1bij.jpg"},
+      {"title": "Waiting Skeleton", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/2fm6x.jpg"}
+    ],
+    "LongTermInvestor": [
+      {"title": "To the moon", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/30b1gx.jpg"},
+      {"title": "Diamond hands", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/1jwhww.jpg"}
+    ],
+    "NFTCollector": [
+      {"title": "NFT flex", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/gtj5t.jpg"},
+      {"title": "Buff Doge", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/43a45p.png"}
+    ],
+    "DeFiFarmer": [
+      {"title": "Yield farming", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/wxica.jpg"},
+      {"title": "Y'all Got Any More Of That", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/21uy0f.jpg"}
+    ],
+    "general": [
+      {"title": "To the moon", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/30b1gx.jpg"},
+      {"title": "HODL", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/1bhk.jpg"},
+      {"title": "When BTC pumps", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/54hjww.jpg"},
+      {"title": "Diamond hands", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/43a45p.png"},
+      {"title": "Crypto winter", "url": "https://imgflip.com/memegenerator", "image_url": "https://i.imgflip.com/wxica.jpg"}
+    ]
+  }
+}
