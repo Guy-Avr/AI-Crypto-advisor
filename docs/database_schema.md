@@ -1,6 +1,6 @@
 # Database Schema – AI Crypto Advisor
 
-This document describes the PostgreSQL database structure for the AI Crypto Advisor application.
+PostgreSQL structure for the AI Crypto Advisor application. Tables are created via SQLAlchemy `Base.metadata.create_all` (no Alembic in use).
 
 ---
 
@@ -25,7 +25,7 @@ Stores registered users.
 
 ### 2. preferences
 
-Stores onboarding answers and personalization. Each user has exactly one preferences row.
+Stores onboarding answers. One row per user.
 
 | Column         | Type           | Constraints / Notes                          |
 |----------------|----------------|----------------------------------------------|
@@ -38,27 +38,27 @@ Stores onboarding answers and personalization. Each user has exactly one prefere
 | updated_at     | TIMESTAMP      | Default `now()`, updated on change           |
 
 **Constraints:**  
-- `UNIQUE(user_id)` (one-to-one with users)  
+- `UNIQUE(user_id)`  
 - `FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE`
 
 ---
 
 ### 3. votes
 
-Stores user feedback (up/down) on dashboard content, for future personalization.
+Stores user feedback (up/down) per dashboard item. One vote per (user, section, item); can be updated or cancelled (row deleted).
 
 | Column       | Type         | Constraints / Notes                    |
 |--------------|--------------|----------------------------------------|
 | id           | UUID         | Primary Key                            |
 | user_id      | UUID         | FK → users(id), ON DELETE CASCADE      |
-| section_type | VARCHAR(20)  | Not Null (news / price / ai / meme)    |
-| item_id      | VARCHAR(255) | Not Null (external content identifier) |
-| vote_type    | VARCHAR(10)  | Not Null (up / down)                   |
+| section_type | VARCHAR(20)  | Not Null (news \| price \| ai \| meme) |
+| item_id      | VARCHAR(255) | Not Null (external content id)         |
+| vote_type    | VARCHAR(10)  | Not Null (up \| down)                   |
 | created_at   | TIMESTAMP    | Default `now()`                        |
 
 **Constraints:**  
 - `FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE`  
-- `UNIQUE(user_id, section_type, item_id)` (no duplicate votes per user per item)
+- `UNIQUE(user_id, section_type, item_id)` — at most one vote per user per item per section; updates replace the row, cancel deletes it.
 
 ---
 
@@ -66,44 +66,26 @@ Stores user feedback (up/down) on dashboard content, for future personalization.
 
 ### investor_enum
 
-Allowed investor archetypes (used in `preferences.investor_type`):
+Used in `preferences.investor_type`:
 
-- HODLer  
-- DayTrader  
-- SwingTrader  
-- LongTermInvestor  
-- NFTCollector  
-- DeFiFarmer  
+- HODLer, DayTrader, SwingTrader, LongTermInvestor, NFTCollector, DeFiFarmer
 
 ### section_type (votes)
 
-Allowed values for `votes.section_type` (dashboard sections):
-
-- news  
-- price  
-- ai  
-- meme  
+- news, price, ai, meme
 
 ### vote_type (votes)
 
-Allowed values for `votes.vote_type`:
-
-- up  
-- down  
+- up, down
 
 ---
 
 ## Data integrity
 
-- Emails are unique so we don’t get duplicate accounts.
-- Investor type is enforced in the DB via the ENUM.
-- JSONB is used for multi-value fields (assets, content types) so we can query and filter later.
-- The composite unique on votes prevents voting twice on the same item.
-- Cascade deletes keep the data clean when a user is removed.
+- Emails unique; investor type via ENUM; JSONB for assets and content_types.
+- Unique (user_id, section_type, item_id) on votes prevents duplicate votes; same request updates existing row.
+- Cascade deletes when a user is removed.
 
 ## Design notes
 
-- UUIDs avoid predictable IDs.
-- ENUM keeps investor types under control.
-- JSONB gives flexibility for filtering and personalization.
-- Stored votes can be used later to improve recommendations.
+- UUIDs for ids; ENUMs for fixed value sets; votes stored for future personalization.

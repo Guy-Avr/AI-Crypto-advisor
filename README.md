@@ -6,8 +6,6 @@ Personalized crypto investor dashboard with onboarding, daily curated content, a
 
 ## Tech Stack
 
-Technical choices for this project.
-
 ### Backend
 
 | Choice | Purpose |
@@ -15,9 +13,10 @@ Technical choices for this project.
 | **FastAPI** | Async API, automatic OpenAPI docs, type hints |
 | **PostgreSQL** | Relational DB, JSONB for preferences, ENUMs |
 | **SQLAlchemy** | ORM and DB access |
-| **Alembic** | Migrations for schema changes |
 | **JWT** (python-jose) | Stateless auth for API |
 | **Passlib** (bcrypt) | Password hashing |
+
+Schema is created via `Base.metadata.create_all` (no Alembic migrations in this repo).
 
 ### Frontend
 
@@ -27,13 +26,14 @@ Technical choices for this project.
 | **Axios** | HTTP client for API calls |
 | **Context API** | Auth and app state (no Redux for now) |
 
-### APIs
+### External APIs & data
 
-| Service | Use |
-|---------|-----|
-| **CoinGecko** | Coin data and prices |
-| **CryptoCompare** | Market news (fallback: static_news.json) |
-| **HuggingFace / OpenRouter** | AI insight of the day |
+| Source | Use |
+|--------|-----|
+| **CoinGecko** | Coin prices |
+| **CryptoCompare** | Market news (fallback: `backend/data/static_news.json`) |
+| **OpenRouter** | AI insight of the day (e.g. Gemma 3) |
+| **Imgflip** | Meme image URLs; meme list in `backend/data/memes.json` by investor type |
 
 ### Deployment
 
@@ -46,11 +46,12 @@ Technical choices for this project.
 
 ## Repo structure
 
-- `backend/` ? FastAPI app, models, API, DB
-- `frontend/` ? React (Vite) app
-- `docs/` ? documentation (see below)
+- `backend/` — FastAPI app, models, API, DB
+- `backend/data/` — JSON: `static_news.json`, `memes.json`
+- `frontend/` — React (Vite) app
+- `docs/` — documentation (see below)
 
 ## Documentation
 
-- **[docs/database_schema.md](docs/database_schema.md)** ? PostgreSQL schema: tables (users, preferences, votes), ENUMs, constraints, and design notes.
-- **[docs/api_contract.md](docs/api_contract.md)** ? API endpoints and short descriptions.
+- **[docs/database_schema.md](docs/database_schema.md)** — PostgreSQL schema: users, preferences, votes; ENUMs and constraints.
+- **[docs/api_contract.md](docs/api_contract.md)** — API endpoints, request/response details, and data sources.
