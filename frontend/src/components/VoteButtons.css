@@ -1,0 +1,36 @@
+.vote-buttons {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.vote-btn {
+  padding: 0.2rem 0.4rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.vote-btn:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+.vote-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.vote-btn.active {
+  background: #e0f0ff;
+  border-color: #06c;
+}
+
+.vote-btn.vote-down.active {
+  background: #ffe0e0;
+  border-color: #c00;
+}

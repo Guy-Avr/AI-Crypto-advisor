@@ -1,0 +1,137 @@
+.dashboard {
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  box-sizing: border-box;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.dashboard-header p {
+  margin: 0;
+  color: #666;
+}
+
+.dashboard-header .logout-btn {
+  margin-left: auto;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+}
+
+.dashboard-loading,
+.dashboard-error {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.dashboard-error {
+  color: #c00;
+}
+
+.dashboard-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #1a1a1a;
+}
+
+.dashboard-section h2 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.15rem;
+  color: #333;
+}
+
+.dashboard-section .section-item .item-content,
+.dashboard-section.prices .section-item .item-content,
+.dashboard-section.ai .ai-block {
+  color: #1a1a1a;
+}
+
+.dashboard-section ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.dashboard-section .section-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.dashboard-section .section-item .item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-section .section-item .item-content a {
+  color: #06c;
+}
+
+.dashboard-section .section-item .item-content a:hover {
+  text-decoration: underline;
+}
+
+.dashboard-section.prices .section-item {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-section.prices .symbol {
+  font-weight: 600;
+  min-width: 4rem;
+}
+
+.dashboard-section.ai .ai-block {
+  white-space: pre-wrap;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.dashboard-section.meme .meme-card {
+  display: inline-block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.dashboard-section.meme .meme-card img {
+  display: block;
+  max-width: 320px;
+  height: auto;
+}
+
+.dashboard-section.meme .meme-title {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+.dashboard-section.empty {
+  color: #888;
+  font-style: italic;
+}
