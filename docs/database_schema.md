@@ -52,7 +52,7 @@ Stores user feedback (up/down) per dashboard item. One vote per (user, section, 
 | id           | UUID         | Primary Key                            |
 | user_id      | UUID         | FK → users(id), ON DELETE CASCADE      |
 | section_type | VARCHAR(20)  | Not Null (news \| price \| ai \| meme) |
-| item_id      | VARCHAR(255) | Not Null (external content id)         |
+| item_id      | VARCHAR(255) | Not Null (external content id; e.g. news URL, price `symbol|value`, AI text ≤255 chars, meme image URL) |
 | vote_type    | VARCHAR(10)  | Not Null (up \| down)                   |
 | created_at   | TIMESTAMP    | Default `now()`                        |
 

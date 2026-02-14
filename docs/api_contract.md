@@ -1,6 +1,6 @@
 # API Contract
 
-Backend endpoints for the AI Crypto Advisor. Dashboard sections are loaded separately. All dashboard and vote endpoints require JWT unless noted.
+Backend endpoints for the AI Crypto Advisor. Use **GET /dashboard** for all-in-one dashboard data, or the separate endpoints per section. All dashboard and vote endpoints require JWT unless noted.
 
 ---
 
@@ -12,6 +12,7 @@ Backend endpoints for the AI Crypto Advisor. Dashboard sections are loaded separ
 | POST | `/auth/login` | Authenticate and get JWT. |
 | GET | `/users/me` | Current user (id, email, name, onboarding done). Auth required. |
 | POST | `/onboarding` | Save onboarding: assets, investor type, content types. Auth required. |
+| GET | `/dashboard` | Aggregated dashboard: prices, news, ai_insight, meme in one response. Auth required. |
 | GET | `/dashboard/prices` | Coin prices in USD for user assets. Empty + message if no assets. Auth required. |
 | GET | `/dashboard/news` | Market news filtered by user assets. Auth required. |
 | GET | `/dashboard/ai-insight` | AI insight of the day (tailored by investor_type, content_types). Auth required. |
@@ -36,7 +37,7 @@ Backend endpoints for the AI Crypto Advisor. Dashboard sections are loaded separ
 ```
 
 - `section_type`: `news` | `price` | `ai` | `meme`
-- `item_id`: non-empty string (e.g. news id, coin symbol, meme id)
+- `item_id`: non-empty string, max 255 chars. Frontend conventions: **news** = article URL; **price** = `symbol|value` (e.g. `BTC|95000.5`); **ai** = first 255 chars of insight text; **meme** = image URL.
 - `vote_type`: `up` | `down`
 
 **Response:** `{ "status": "ok", "action": "created" | "updated" }`

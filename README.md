@@ -23,6 +23,7 @@ Schema is created via `Base.metadata.create_all` (no Alembic migrations in this 
 | Choice | Purpose |
 |--------|--------|
 | **React** (Vite) | UI, fast dev experience |
+| **React Router** | Routes, auth guards, Login/Register/Onboarding/Dashboard |
 | **Axios** | HTTP client for API calls |
 | **Context API** | Auth and app state (no Redux for now) |
 

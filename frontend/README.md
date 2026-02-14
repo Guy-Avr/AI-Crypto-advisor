@@ -5,17 +5,23 @@ React (Vite) + TypeScript. Connects to the FastAPI backend.
 ## Setup
 
 - Copy `.env.example` to `.env` and set `VITE_API_BASE_URL` (e.g. `http://localhost:8000`).
-- `npm install` then `npm run dev`. The app runs a health check against the backend on load.
+- `npm install` then `npm run dev`.
+
+## Flows
+
+- **Login / Register** — JWT stored in localStorage; after auth, redirect to onboarding if not done, else dashboard.
+- **Onboarding** — Assets, investor type, content types (once per user).
+- **Dashboard** — GET /dashboard; News, Price, AI, Meme sections with 👍/👎 voting (POST/DELETE /vote).
 
 ## Folder structure
 
 ```
 src/
-  api/         # API client (axios), health check, future endpoints
+  api/         # API client (axios), auth, users, onboarding, dashboard, vote
   components/
-  screens/
+  screens/     # Login, Register, Onboarding, Dashboard
   hooks/
-  store/
+  store/       # AuthContext
   types/
   utils/
 ```
@@ -23,6 +29,7 @@ src/
 ## Tech
 
 - **React** (Vite) — UI, fast dev
+- **React Router** — Routes and auth guards
 - **Axios** — HTTP client; base URL from `VITE_API_BASE_URL`
 - **Context API** — Auth and app state (no Redux for now)
 
