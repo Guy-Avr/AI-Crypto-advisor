@@ -1,12 +1,10 @@
 """
-CoinGecko API integration for crypto prices.
-Uses an in-memory cache refreshed every 5 minutes with ALL enum coins from CoinGecko.
-Per-request: filter cache by user_assets only (no direct API call per request).
+Crypto prices: CoinGecko primary, Binance as fallback (no API key).
+In-memory cache refreshed every 5 minutes. Per-request: filter cache by user_assets only.
 """
 
 import logging
 import threading
-import time
 from typing import Any
 
 import httpx
@@ -17,6 +15,7 @@ from app.models.enums import AssetSymbol
 logger = logging.getLogger(__name__)
 
 CACHE_TTL_SEC = 300  # 5 minutes
+BINANCE_TICKER_URL = "https://api.binance.com/api/v3/ticker/price"
 
 # Message returned when the price provider is unavailable (no invented data).
 PRICES_UNAVAILABLE_MESSAGE = (
@@ -63,16 +62,65 @@ ASSET_TO_COINGECKO_ID: dict[AssetSymbol, str] = {
 }
 
 
+def _fetch_prices_binance(timeout: float = 10.0) -> dict[str, float]:
+    """
+    Fetch USD prices from Binance (no API key). Returns symbol -> price for our AssetSymbol set.
+    Prefer XXXUSD when available, else XXXUSDT. Stablecoins USDT/USDC = 1.0.
+    """
+    result: dict[str, float] = {}
+    try:
+        with httpx.Client(timeout=timeout) as client:
+            response = client.get(BINANCE_TICKER_URL)
+            response.raise_for_status()
+        items = response.json()
+    except (httpx.HTTPError, httpx.TimeoutException) as e:
+        logger.warning("Binance fallback failed: %s", e)
+        return result
+    except Exception as e:
+        logger.warning("Binance fallback error: %s", e)
+        return result
+
+    if not isinstance(items, list):
+        return result
+
+    # Build map: "BTCUSD" -> price, "BTCUSDT" -> price, ...
+    pair_to_price: dict[str, float] = {}
+    for item in items:
+        if isinstance(item, dict) and "symbol" in item and "price" in item:
+            try:
+                pair_to_price[item["symbol"]] = float(item["price"])
+            except (TypeError, ValueError):
+                pass
+
+    # Map our symbols: prefer XXXUSD, else XXXUSDT (or 1.0 for USDT/USDC)
+    for sym in AssetSymbol:
+        s = sym.value
+        if s in ("USDT", "USDC"):
+            result[s] = 1.0
+            continue
+        pair_usd = f"{s}USD"
+        pair_usdt = f"{s}USDT"
+        if pair_usd in pair_to_price:
+            result[s] = pair_to_price[pair_usd]
+        elif pair_usdt in pair_to_price:
+            result[s] = pair_to_price[pair_usdt]
+    logger.info("Binance fallback: %s symbols", len(result))
+    return result
+
+
 def refresh_prices_cache() -> None:
     """
-    Fetch USD prices for ALL AssetSymbol enum coins from CoinGecko and update in-memory cache.
+    Fetch USD prices for ALL AssetSymbol enum coins. Primary: CoinGecko; on failure use Binance fallback.
     Called every 5 minutes by a background thread; one API call per refresh.
     """
     ids = list(ASSET_TO_COINGECKO_ID.values())
     symbol_by_id: dict[str, str] = {cg_id: sym.value for sym, cg_id in ASSET_TO_COINGECKO_ID.items()}
     settings = get_settings()
-    url = settings.COINGECKO_API_URL or "https://api.coingecko.com/api/v3/simple/price"
     timeout = max(5.0, float(settings.COINGECKO_TIMEOUT or 10))
+    result: dict[str, float] = {}
+
+    # Try CoinGecko first
+    url = settings.COINGECKO_API_URL or "https://api.coingecko.com/api/v3/simple/price"
     params: dict[str, Any] = {
         "ids": ",".join(ids),
         "vs_currencies": "usd",
@@ -80,27 +128,35 @@ def refresh_prices_cache() -> None:
     try:
         with httpx.Client(timeout=timeout) as client:
             response = client.get(url, params=params)
+            if response.status_code == 429:
+                raise httpx.HTTPStatusError("429 Too Many Requests", request=response.request, response=response)
             response.raise_for_status()
         data = response.json()
+        for cg_id, symbol in symbol_by_id.items():
+            coin = data.get(cg_id)
+            if isinstance(coin, dict) and "usd" in coin:
+                try:
+                    result[symbol] = float(coin["usd"])
+                except (TypeError, ValueError):
+                    pass
+        if result:
+            with _cache_lock:
+                _prices_cache.clear()
+                _prices_cache.update(result)
+            logger.info("Prices cache refreshed from CoinGecko: %s symbols", len(result))
+            return
     except (httpx.HTTPError, httpx.TimeoutException) as e:
         logger.warning("CoinGecko cache refresh failed: %s", e)
-        return
     except Exception as e:
         logger.warning("CoinGecko cache refresh error: %s", e)
-        return
 
-    result: dict[str, float] = {}
-    for cg_id, symbol in symbol_by_id.items():
-        coin = data.get(cg_id)
-        if isinstance(coin, dict) and "usd" in coin:
-            try:
-                result[symbol] = float(coin["usd"])
-            except (TypeError, ValueError):
-                pass
-    with _cache_lock:
-        _prices_cache.clear()
-        _prices_cache.update(result)
-    logger.info("Prices cache refreshed: %s symbols", len(result))
+    # Fallback: Binance (no API key)
+    result = _fetch_prices_binance(timeout=timeout)
+    if result:
+        with _cache_lock:
+            _prices_cache.clear()
+            _prices_cache.update(result)
+        logger.info("Prices cache refreshed from Binance fallback: %s symbols", len(result))
 
 
 def get_prices(user_assets: list[str]) -> tuple[dict[str, float], str | None]:

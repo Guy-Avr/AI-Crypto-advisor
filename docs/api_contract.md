@@ -60,6 +60,6 @@ Backend endpoints for the AI Crypto Advisor. Use **GET /dashboard** for all-in-o
 ## Data sources
 
 - **News:** CryptoCompare (free API). Fallback: `backend/data/static_news.json`. Each item: `title`, `url`, `source`, `published_at`, `coins`.
-- **Prices:** CoinGecko (free API).
+- **Prices:** CoinGecko (free API). Fallback: Binance API (no API key); prices refreshed every 5 minutes, prefer XXXUSD then XXXUSDT.
 - **AI insight:** OpenRouter (e.g. Gemma 3). Prompt uses `investor_type` and `content_types` from preferences.
 - **Meme:** JSON from `backend/data/memes.json`, categories by `investor_type`; images from Imgflip.

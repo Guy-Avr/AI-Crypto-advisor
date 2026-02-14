@@ -136,6 +136,12 @@
   min-width: 4rem;
 }
 
+.dashboard-section.prices .prices-unavailable {
+  margin: 0;
+  color: #666;
+  font-style: italic;
+}
+
 .dashboard-section.ai .ai-block {
   white-space: pre-wrap;
   font-size: 0.95rem;

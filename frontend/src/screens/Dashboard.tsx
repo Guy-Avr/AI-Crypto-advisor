@@ -81,9 +81,9 @@ export default function Dashboard() {
         </section>
       )}
 
-      {Object.keys(data.prices).length > 0 && (
-        <section className="dashboard-section prices" aria-label="Prices">
-          <h2>Price</h2>
+      <section className="dashboard-section prices" aria-label="Prices">
+        <h2>Price</h2>
+        {Object.keys(data.prices).length > 0 ? (
           <ul>
             {Object.entries(data.prices).map(([symbol, price]) => {
               const priceItemId = `${symbol}|${Number(price)}`
@@ -105,8 +105,10 @@ export default function Dashboard() {
               )
             })}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p className="prices-unavailable">Price service is currently unavailable. Please try again later.</p>
+        )}
+      </section>
 
       {data.ai_insight && (
         <section className="dashboard-section ai" aria-label="AI Insight">

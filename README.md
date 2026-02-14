@@ -31,7 +31,7 @@ Schema is created via `Base.metadata.create_all` (no Alembic migrations in this 
 
 | Source | Use |
 |--------|-----|
-| **CoinGecko** | Coin prices |
+| **CoinGecko** | Coin prices (fallback: Binance API, no key) |
 | **CryptoCompare** | Market news (fallback: `backend/data/static_news.json`) |
 | **OpenRouter** | AI insight of the day (e.g. Gemma 3) |
 | **Imgflip** | Meme image URLs; meme list in `backend/data/memes.json` by investor type |
