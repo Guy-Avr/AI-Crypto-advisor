@@ -4,7 +4,10 @@ import { VoteButtons } from '../components/VoteButtons'
 import { useVoting } from '../hooks/useVoting'
 import { useAuth } from '../store/AuthContext'
 import type { DashboardResponse } from '../types/dashboard'
+import { formatNewsDate } from '../utils/formatDate'
 import './Dashboard.css'
+
+const NEWS_TITLE_MAX_CHARS = 70
 
 export default function Dashboard() {
   const { user, logout } = useAuth()
@@ -49,26 +52,31 @@ export default function Dashboard() {
         <section className="dashboard-section news" aria-label="News">
           <h2>News</h2>
           <ul>
-            {data.news.map((item) => (
-              <li key={item.url} className="section-item">
-                <div className="item-content">
-                  <a href={item.url} target="_blank" rel="noopener noreferrer">
-                    {item.title}
-                  </a>
-                  {item.published_at && (
-                    <span className="meta"> · {item.published_at}</span>
-                  )}
-                </div>
-                <VoteButtons
-                  sectionType="news"
-                  itemId={item.url}
-                  currentVote={getVote('news', item.url)}
-                  onVote={vote}
-                  onCancel={cancelVote}
-                  loading={isLoading('news', item.url)}
-                />
-              </li>
-            ))}
+            {data.news.map((item) => {
+              const titleDisplay = item.title.length > NEWS_TITLE_MAX_CHARS
+                ? item.title.slice(0, NEWS_TITLE_MAX_CHARS) + '…'
+                : item.title
+              return (
+                <li key={item.url} className="section-item news-item">
+                  <div className="item-content news-item-content">
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" title={item.title}>
+                      {titleDisplay}
+                    </a>
+                    {item.published_at && (
+                      <span className="news-time">{formatNewsDate(item.published_at)}</span>
+                    )}
+                  </div>
+                  <VoteButtons
+                    sectionType="news"
+                    itemId={item.url}
+                    currentVote={getVote('news', item.url)}
+                    onVote={vote}
+                    onCancel={cancelVote}
+                    loading={isLoading('news', item.url)}
+                  />
+                </li>
+              )
+            })}
           </ul>
         </section>
       )}

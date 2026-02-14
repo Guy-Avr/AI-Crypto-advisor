@@ -95,6 +95,37 @@
   text-decoration: underline;
 }
 
+/* News: one line per item, title truncated, time in a colored frame */
+.dashboard-section.news .news-item {
+  align-items: center;
+}
+
+.dashboard-section.news .news-item-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.dashboard-section.news .news-item-content a {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-section.news .news-time {
+  flex-shrink: 0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: #e8f0fe;
+  color: #1a1a1a;
+  font-size: 0.8rem;
+  border: 1px solid #b3d4fc;
+}
+
 .dashboard-section.prices .section-item {
   display: flex;
   align-items: center;
