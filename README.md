@@ -52,6 +52,86 @@ Schema is created via `Base.metadata.create_all` (no Alembic migrations in this 
 - `frontend/` — React (Vite) app
 - `docs/` — documentation (see below)
 
+## Run locally
+
+### Prerequisites
+
+- **Python 3.11+**
+- **Node.js 18+**
+- **PostgreSQL 14+**
+
+### 1) Start PostgreSQL
+
+- Install PostgreSQL (e.g. 15/16) and make sure the service is running.
+- Create a database (and optionally a dedicated user).
+
+Example using `psql`:
+
+```bash
+psql -U postgres
+```
+
+Then run:
+
+```sql
+CREATE DATABASE ai_crypto_advisor;
+-- Optional:
+-- CREATE USER ai_crypto_user WITH PASSWORD 'your_password';
+-- GRANT ALL PRIVILEGES ON DATABASE ai_crypto_advisor TO ai_crypto_user;
+```
+
+Alternatively, you can do the same in **pgAdmin** (Create Database → `ai_crypto_advisor`).
+
+### 2) Backend (FastAPI)
+
+```bash
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+Create `backend/.env` (copy from `backend/.env.example`) and set at least:
+
+- `POSTGRES_USER`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_HOST=localhost`
+- `POSTGRES_PORT=5432`
+- `POSTGRES_DB`
+- `SECRET_KEY` (long random string for JWT)
+- `OPENROUTER_API_KEY` (optional; otherwise AI insight may fall back to static text)
+
+Run the API:
+
+```bash
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+API docs: `http://localhost:8000/docs`
+
+### 3) Frontend (Vite)
+
+```bash
+cd frontend
+npm install
+```
+
+Create `frontend/.env` (copy from `frontend/.env.example`) and set:
+
+- `VITE_API_BASE_URL=http://localhost:8000`
+
+Run the UI:
+
+```bash
+npm run dev
+```
+
+Open: `http://localhost:5173`
+
 ## Documentation
 
 - **[docs/database_schema.md](docs/database_schema.md)** — PostgreSQL schema: users, preferences, votes; ENUMs and constraints.

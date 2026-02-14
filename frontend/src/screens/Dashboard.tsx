@@ -83,9 +83,9 @@ export default function Dashboard() {
 
       <section className="dashboard-section prices" aria-label="Prices">
         <h2>Price</h2>
-        {Object.keys(data.prices).length > 0 ? (
+        {Object.keys(data.prices ?? {}).length > 0 ? (
           <ul>
-            {Object.entries(data.prices).map(([symbol, price]) => {
+            {Object.entries(data.prices ?? {}).map(([symbol, price]) => {
               const priceItemId = `${symbol}|${Number(price)}`
               return (
                 <li key={priceItemId} className="section-item">
@@ -152,7 +152,7 @@ export default function Dashboard() {
       )}
 
       {data.news.length === 0 &&
-        Object.keys(data.prices).length === 0 &&
+        Object.keys(data.prices ?? {}).length === 0 &&
         !data.ai_insight &&
         !data.meme && (
           <p className="dashboard-section empty">No content available.</p>
